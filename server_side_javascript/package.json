@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "uglify-js": "^3.17.4"
+    "uglify-js": "^3.17.4",
+    "underscore": "^1.13.6"
   }
 }
