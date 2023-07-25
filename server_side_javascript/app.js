@@ -1,6 +1,11 @@
 const express = require('express');
 const app = express();
+app.set('view engine', 'jade');
+app.set('views', './views');
 app.use(express.static('public'));
+app.get('/template', (req, res) => {
+  res.render('temp');
+});
 app.get('/', (req, res) => {
   res.send('Hello home page');
 });
@@ -26,7 +31,7 @@ app.get('/dynamic', (req, res) =>{
       ${time}
     </body>
   </html>`
-  res.send(output)
+  res.send(output);
 });
 app.get('/route', (req, res) => {
   res.send('Hello Router, <img src="route.jpg">')
