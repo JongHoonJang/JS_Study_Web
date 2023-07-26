@@ -4,6 +4,25 @@ app.locals.pretty = true;
 app.set('view engine', 'jade');
 app.set('views', './views');
 app.use(express.static('public'));
+app.get('/topic', (req, res) => {
+  const topics = [
+    'Javascript is...',
+    'Nodejs is...',
+    'Express is...',
+  ];
+  const str = `
+    <a href="/topic?id=0">Javascript</a><br>
+    <a href="/topic?id=1">Nodejs</a><br>
+    <a href="/topic?id=2">Express</a><br>
+  `;
+  let output = str + topics[req.query.id];
+  res.send(output);
+});
+app.get('/param/:module_id/:topic_id', (req, res) => {
+  res.json(req.params);
+});
+
+
 app.get('/template', (req, res) => {
   res.render('temp', {time:Date(), title:'Jade'});
 });
