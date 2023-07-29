@@ -10,10 +10,10 @@ http.createServer((req, res) => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
 // 위에있는 코드랑 동일한 코드
-const server = http.createServer(function(req, res){
+const server = http.createServer((req, res) => {
   res.writeHead(200, { 'Content-Type': 'text/plain' });
   res.end('Hello World\n');
 });
-server.listen(port, hostname, function(){
+server.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
