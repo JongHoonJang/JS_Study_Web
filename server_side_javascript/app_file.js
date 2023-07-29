@@ -15,7 +15,22 @@ app.get('/topic', (req, res) => {
       res.status(500).send('Internal Server Error');
     }
     res.render('view', {topics:flies});
-  })
+  });
+});
+app.get('/topic/:id', (req, res) => {
+  const id = req.params.id;
+  fs.readdir('data', (err, flies) => {
+    if (err){
+      res.status(500).send('Internal Server Error');
+    }
+    fs.readFile('data/'+id, 'utf8', (err, data) => {
+      if (err){
+        res.status(500).send('Internal Server Error');
+      }
+      res.render('view',{topics:flies, title:id, description:data});
+    });
+  });
+
 });
 app.post('/topic', (req, res) => {
   const title = req.body.title;
