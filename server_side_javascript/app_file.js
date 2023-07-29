@@ -7,31 +7,32 @@ app.locals.pretty = true;
 app.set('views', './views_file');
 app.set('view engine', 'jade');
 app.get('/topic/new', (req, res) => {
-  res.render('new');
-});
-app.get('/topic', (req, res) => {
   fs.readdir('data', (err, flies) => {
     if (err){
       res.status(500).send('Internal Server Error');
     }
-    res.render('view', {topics:flies});
+    res.render('new',{topics:flies});
   });
 });
-app.get('/topic/:id', (req, res) => {
-  const id = req.params.id;
+app.get(['/topic', '/topic/:id'], (req, res) => {
   fs.readdir('data', (err, flies) => {
     if (err){
       res.status(500).send('Internal Server Error');
     }
-    fs.readFile('data/'+id, 'utf8', (err, data) => {
-      if (err){
-        res.status(500).send('Internal Server Error');
-      }
-      res.render('view',{topics:flies, title:id, description:data});
-    });
+    const id = req.params.id;
+    if (id){
+      fs.readFile('data/'+id, 'utf8', (err, data) => {
+        if (err){
+          res.status(500).send('Internal Server Error');
+        }
+        res.render('view',{topics:flies, title:id, description:data});
+      });
+    } else {
+      res.render('view', {topics:flies, title:'Welcome', description:'Hello, JavaScript for server.'});
+    }
   });
+});
 
-});
 app.post('/topic', (req, res) => {
   const title = req.body.title;
   const description = req.body.description;
@@ -39,7 +40,7 @@ app.post('/topic', (req, res) => {
     if(err){
       res.status(500).send('Internal Server Error');
     }
-    res.send('Success!');
+    res.redirect('/topic/'+title);
   });
 });
 app.listen(3000, () => {
